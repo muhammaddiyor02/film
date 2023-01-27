@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            width: 1000px;
+            margin: 0 auto;
+           
+        }
+        .menu{
+            width: 1000px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+        .inp{
+            padding: 8px 70px;
+            font-size: 22px;
+            border-radius: 21px;
+            margin: 0 15px;
+        }
+        .card{
+           width: 250px;
+           height: 350px;
+           margin: 20px;
+           border: 1px solid #000;
+          border-radius: 12px;
+          background-color:aquamarine;
+        }
+        .list{
+            display: flex;
+           justify-content: space-between;
+           align-items: center;
+           flex-wrap: wrap;
+            list-style-type: none;
+        }
+        .year{
+            padding: 8px 20px;
+            border-radius: 21px;
+        }
+        .reyting{
+            padding: 8px 20px;
+            border-radius: 21px;
+        }
+        h2,h3,h4{
+            color: rgb(175, 14, 14);
+           text-align: center;
+        }
+        p{
+            color: rgb(175, 14, 14);
+           text-align: center;
+        }
+        img{
+            width: 250px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px  12px 0 0;
+            
+         
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container menu">
+        <select class="year">
+            <option value="choose">choose</option>
+            <option value="old">old</option>
+            <option value="new">new</option>
+        </select>
+        <input type="search" class="inp">
+        <select class="reyting">
+            <option value="choose">tanlang</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>   
+    
+   
+</div>
+<div class="container">
+    <ul class="list">
+
+    </ul>
+</div>
+
+</body>
+<script src="./js/main.js"></script>
+</html>
