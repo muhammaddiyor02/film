@@ -1,9 +1,11 @@
 let year = document.querySelector(".year")
-console.log(year);
 let reyting = document.querySelector(".reyting")
 let list = document.querySelector(".list")
+let form = document.querySelector(".form")
 let inp = document.querySelector(".inp")
+let cate = document.querySelector('.catagory')
 let btn = document.querySelector(".btn")
+let page = document.querySelector('.page__list')
 
 
 const movies = [
@@ -426,19 +428,24 @@ const movies = [
   }
 ]
 
-
 const newMovies = [];
+mapper(movies)
+
+function mapper(movies){
+  list.innerHTML=''
 movies.map((item)=>{
-    let li = document.createElement ("li")
-    li.innerHTML = `<div class="card">
-    <img src="https://i.ytimg.com/vi/${item.ytid}/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCDbf7K3_Y-mY-lzPi9ODTktAPh0g" alt="">
-   <h2>${item.Title}</h2>
-   <p>${item.imdb_rating}</p>
-   <p>${item.movie_year}</p>
-   <p>${item.Categories}</p>
+  let li = document.createElement ("li")
+  li.innerHTML = `<div class="card">
+  <img src="https://i.ytimg.com/vi/${item.ytid}/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCDbf7K3_Y-mY-lzPi9ODTktAPh0g" alt="">
+ <h2>${item.Title}</h2>
+ <p>${item.imdb_rating}</p>
+ <p>${item.movie_year}</p>
+
+ <p>${item.Categories}</p>
 </div>`
 list.appendChild(li)
 })
+}
 
 year.addEventListener('change',(e)=>{
     e.preventDefault();
@@ -486,10 +493,24 @@ reyting.addEventListener('change', (e)=>{
     
     })
   })
-  
+form.addEventListener("submit",(event)=>{
+    event.preventDefault()
 
-inp.addEventListener('keyup', (i)=>{
-    i.preventDefault()
+   const newMovie = movies.filter((item)=> item.Title.toString().toLowerCase().includes(inp.value.toLowerCase())== true)
+   let rex =RegExp(inp.value,"gi")
+  newMovie.map((item1)=>(
+    item1.Title = item1.Title.replace(rex,`<mark>${inp.value}</mark>` )
+   ))
+ mapper(newMovie);
+  })
+  inp.addEventListener('keyup', (i)=>{
+    i.preventDefault();
+    if (inp.value == ''){
+      movies.map((item1)=>(
+        item1.Title = item1.Title.replace('<mark>',``)
+      ))
+      mapper(movies)
+      }
     let inpV = inp.value
     list.innerHTML = ''
     movies.map((i)=>{
@@ -497,13 +518,61 @@ inp.addEventListener('keyup', (i)=>{
         let li = document.createElement('li')
       li.innerHTML =  `<div class="card">
       <img src="https://i.ytimg.com/vi/${i.ytid}/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCDbf7K3_Y-mY-lzPi9ODTktAPh0g" alt="">
-      <h2>Title: ${i.Title}</h2>
-      <h3>Info:  ${i.Categories}</h3>
-      <h4>Year:  ${i.movie_year}</h4>
-      <h4>Rating:  ${i.imdb_rating}</h4>
+      <h2> ${i.Title}</h2>
+      <h3>  ${i.Categories}</h3>
+      <h4>  ${i.movie_year}</h4>
+      <h4>  ${i.imdb_rating}</h4>
+      <i id="${i.ytid}" class="bi bi-suit-heart likes"></i>
       </div>`
       list.appendChild(li)
       }
-      })
-    })
+    }) 
+  }) 
+
+   const arrCate = [];
+   movies.forEach((item)=>{
+    if(arrCate.includes(item.Categories) == false) 
+    arrCate.push(item.Categories);
+   })
+   arrCate.forEach((item)=>{
+    let newOption = document.createElement('option')
+    newOption.textContent = item
+    newOption.value = item
+    cate.appendChild (newOption)
+
+   })
+   cate.addEventListener('change',()=>{
+   mapper(movies.filter((o)=>o.Categories == cate.value))
   
+   })
+   let count = movies.length /10
+   for( let i = 1; i<= count; i++){
+    let newBtn =document.createElement('button')
+    newBtn.textContent = i
+    newBtn.classList = 'btn'
+    newBtn.id =i
+    page.appendChild(newBtn)
+   }
+ let btnList = document.querySelectorAll('.btn')
+ btnList.forEach((dtn)=>{
+  dtn.addEventListener('click',()=>{
+    let id = dtn.id;
+    const pageDa = movies.slice(id*10,id*10+10)
+      mapper(pageDa)
+  })
+})
+
+
+let like = document.querySelectorAll('.likes')
+const arrLocal = []
+like.forEach((i)=>{
+  i.addEventListener('click', ()=>{
+    console.log(i.id);
+    
+    if(arrLocal.find((fin)=>fin.ytid == i.id)){
+      arrLocal.push(movies.find((item)=>item.ytid == i.id))
+    }
+    window.localStorage.setItem('localData',JSON.stringify(arrLocal))
+    console.log(arrLocal);
+  })
+})
